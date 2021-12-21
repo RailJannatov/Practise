@@ -1,0 +1,70 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>Update</h1>
+
+
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Update Category</h4>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="Name">ExpertName</label>
+                        <input class="form-control" asp-for="Name">
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                    <div>
+                        @if (Model.IsMain)
+                        {
+                            <p>Children: </p>
+                            <ol>
+                                @foreach (var item in Model.Children)
+                                {
+                                    <li>@item.Name</li>
+                                }
+                            </ol>
+                        }
+                        else
+                        {
+                            <p>Parent: @Model.Parent.Name</p>
+                        }
+
+                    </div>
+
+                    @if (Model.IsMain)
+                    {
+                <div class="form-group">
+                    <p> <img src="~/assets/images/@Model.Image" style=" height: 150px; width: 150px;" /></p>
+                    <label asp-for="Photo">Expert Photo</label>
+                    <input class="form-control" asp-for="Photo" data-val="false">
+                    <span class="text-danger" asp-validation-for="Photo"> </span>
+                </div>
+                    }
+
+                   
+                @if (!Model.IsMain)
+                {
+                    <div class="form-group" id="parentCategoryInput">
+                        <label>Parent</label>
+                        <select class="form-control" name="parentCategoryId">
+                            <option value="0">--Select Category--</option>
+                            @foreach (var item in ViewBag.ParentCategories)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>}
+
+
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <button class="btn btn-light" asp-action="Index">Cancel</button>
+                </form>
+        </div>
+        </div>
+    </div>
+</div>
+
